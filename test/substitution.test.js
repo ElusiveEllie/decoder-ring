@@ -48,4 +48,10 @@ describe("#substitution", () => {
         const expected = "voorv";
         expect(actual).to.equal(expected);
     });
+
+    it("should return the same value when run both encoded and decoded", () => {
+        const actual = substitution(substitution("ellie", "zyxwvutsrqponmlkjihgfedcba"), "zyxwvutsrqponmlkjihgfedcba", false);
+        const expected = "ellie";
+        expect(actual).to.equal(expected);
+    })
 });

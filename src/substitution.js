@@ -8,24 +8,33 @@ const substitutionModule = (function () {
 
     // Helper function to apply substitution
     function applySubstitution(input, startingAlphabet, endingAlphabet) {
-        // Create empty result string
-        let result = "";
+        // Create empty result string and object
+        const result = [];
+        const foundSubstitutions = {};
 
         // Loop through input
         for (const character of input) {
-            // Find index of character
-            index = startingAlphabet.indexOf(character);
-
-            // If character is not in startingAlphabet, add to result as is
-            if (index === -1) {
-                result += character;
+            // Substitute and continue if character has already been found before
+            if (foundSubstitutions[character]) {
+                result.push(foundSubstitutions[character]);
                 continue;
             }
 
-            // Add character from endingAlphabet in same position to result
-            result += endingAlphabet[index];
+            // Find index of character
+            index = startingAlphabet.indexOf(character);
+
+            // If character is not in startingAlphabet, add to result as is and place in foundSubstitutions
+            if (index === -1) {
+                result.push(character);
+                foundSubstitutions[character] = character;
+                continue;
+            }
+
+            // Add character from endingAlphabet in same position to result and add to foundSubstitutions
+            result.push(endingAlphabet[index]);
+            foundSubstitutions[character] = endingAlphabet[index];
         }
-        return result;
+        return result.join("");
     }
 
     // Helper function to determine if alphabet is unique
@@ -48,7 +57,7 @@ const substitutionModule = (function () {
     const englishAlphabet = "abcdefghijklmnopqrstuvwxyz";
     function substitution(input, alphabet, encode = true) {
         // Return false if alphabet isn't the proper length
-        if (!alphabet || alphabet.length != 26) return false;
+        if (!alphabet || alphabet.length != englishAlphabet.length) return false;
 
         // Return false if characters aren't all unique
         if (!isUnique(alphabet)) return false;
