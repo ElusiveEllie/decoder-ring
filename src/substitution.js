@@ -57,7 +57,8 @@ const substitutionModule = (function () {
     const englishAlphabet = "abcdefghijklmnopqrstuvwxyz";
     function substitution(input, alphabet, encode = true) {
         // Return false if alphabet isn't the proper length
-        if (!alphabet || alphabet.length != englishAlphabet.length) return false;
+        if (!alphabet || alphabet.length != englishAlphabet.length)
+            return false;
 
         // Return false if characters aren't all unique
         if (!isUnique(alphabet)) return false;

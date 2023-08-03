@@ -46,8 +46,10 @@ const polybiusModule = (function () {
                 for (let column = 0; column < square[row].length; column++) {
                     // Add each letter and its number to seenLetters if it's not already present
                     if (!seenLetters[square[row][column]]) {
-                        seenLetters[square[row][column]] = `${column + 1}${row + 1}`;
-                    };
+                        seenLetters[square[row][column]] = `${column + 1}${
+                            row + 1
+                        }`;
+                    }
 
                     // Push letter to result if it matches current spot in square and continue to next character
                     if (square[row][column] === character) {

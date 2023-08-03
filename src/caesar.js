@@ -8,11 +8,11 @@ const caesarModule = (function () {
 
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    // Uses shift variable to "move" letters over by number of spaces. 
+    // Uses shift variable to "move" letters over by number of spaces.
     // Encode boolean indicates if shift is being reversed to convert text back to regular alphabet
     function caesar(input, shift, encode = true) {
         // Return false if shift is 0 or outside length of alphabet
-        if (shift === 0 || Math.abs(shift) > (alphabet.length - 1)) return false;
+        if (shift === 0 || Math.abs(shift) > alphabet.length - 1) return false;
 
         // Reverse the shift if decoding
         if (!encode) shift *= -1;

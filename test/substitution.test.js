@@ -50,8 +50,12 @@ describe("#substitution", () => {
     });
 
     it("should return the same value when run both encoded and decoded", () => {
-        const actual = substitution(substitution("ellie", "zyxwvutsrqponmlkjihgfedcba"), "zyxwvutsrqponmlkjihgfedcba", false);
+        const actual = substitution(
+            substitution("ellie", "zyxwvutsrqponmlkjihgfedcba"),
+            "zyxwvutsrqponmlkjihgfedcba",
+            false
+        );
         const expected = "ellie";
         expect(actual).to.equal(expected);
-    })
+    });
 });

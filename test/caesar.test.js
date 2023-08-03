@@ -55,5 +55,5 @@ describe("#caesar()", () => {
         const actual = caesar(caesar("ellie", 2), 2, false);
         const expected = "ellie";
         expect(actual).to.equal(expected);
-    })
+    });
 });

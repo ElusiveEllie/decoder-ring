@@ -51,5 +51,5 @@ describe("#polybius", () => {
         const actual = polybius(polybius("ellie"), false);
         const expected = "ell(i/j)e";
         expect(actual).to.equal(expected);
-    })
+    });
 });
