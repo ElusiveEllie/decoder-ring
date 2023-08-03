@@ -6,18 +6,20 @@
 const caesarModule = (function () {
     // you can add any code you want within this function scope
 
-    // Create alphabet for caesar cypher
     const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+    // Uses shift variable to "move" letters over by number of spaces. 
+    // Encode boolean indicates if shift is being reversed to convert text back to regular alphabet
     function caesar(input, shift, encode = true) {
         // Return false if shift is 0 or outside length of alphabet
-        if (shift < -25 || shift === 0 || shift > 25) return false;
+        if (shift === 0 || Math.abs(shift) > (alphabet.length - 1)) return false;
 
         // Reverse the shift if decoding
         if (!encode) shift *= -1;
 
         // Make all letters lowercase and create result string
         input = input.toLowerCase();
-        let result = "";
+        const result = [];
 
         // Loop through input string
         for (const letter of input) {
@@ -26,7 +28,7 @@ const caesarModule = (function () {
 
             // Add spaces to result and continue loop
             if (index === -1) {
-                result += letter;
+                result.push(letter);
                 continue;
             }
 
@@ -34,13 +36,13 @@ const caesarModule = (function () {
             index += shift;
 
             // If shift is beyond bounds of alphabet length, adjust to wrap around alphabet
-            if (index > 25) index -= 26;
-            if (index < 0) index += 26;
+            if (index > 25) index -= alphabet.length;
+            if (index < 0) index += alphabet.length;
 
             // Add new letter to result
-            result += alphabet[index];
+            result.push(alphabet[index]);
         }
-        return result;
+        return result.join("");
     }
 
     return {

@@ -46,4 +46,10 @@ describe("#polybius", () => {
         const actual = polybius("511313425", false);
         expect(actual).to.be.false;
     });
+
+    it("should return the same value when run both encoded and decoded", () => {
+        const actual = polybius(polybius("ellie"), false);
+        const expected = "ell(i/j)e";
+        expect(actual).to.equal(expected);
+    })
 });

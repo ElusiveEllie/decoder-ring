@@ -16,74 +16,85 @@ const polybiusModule = (function () {
     ];
 
     // Verify numbers provided when decoding are divisible by 2
-    function validityChecker(input) {
+    function checkValidity(input) {
         // Remove spaces
-        input = input.split(" ");
-        input = input.join("");
-        return input.length % 2;
+        input = input.split(" ").join("");
+        return input.length % 2 === 0;
     }
 
     // Encode letters to numbers
     function encoder(input) {
         // Create empty result string
-        let result = "";
+        const result = [];
+
+        // Dictionary to hold letters for later access
+        const seenLetters = {};
 
         // Loop through input string
-        for (let character of input) {
-            // Skip spaces
-            if (character === " ") {
-                result += character;
-                continue;
-            }
-
+        characterLoop: for (let character of input) {
             // Convert i's and j's to "(i/j)"
             if (character === "i" || character === "j") character = "(i/j)";
 
+            // If letter has already been seen, add to result and move to next loop
+            if (seenLetters[character]) {
+                result.push(seenLetters[character]);
+                continue characterLoop;
+            }
+
             // Loop through square
-            for (const row in square) {
-                for (const column in square[row]) {
-                    // If character is found in polybius square, add numbers of square to result
+            for (let row = 0; row < square.length; row++) {
+                for (let column = 0; column < square[row].length; column++) {
+                    // Add each letter and its number to seenLetters if it's not already present
+                    if (!seenLetters[square[row][column]]) {
+                        seenLetters[square[row][column]] = `${column + 1}${row + 1}`;
+                    };
+
+                    // Push letter to result if it matches current spot in square and continue to next character
                     if (square[row][column] === character) {
-                        result += Number(column) + 1;
-                        result += Number(row) + 1;
+                        result.push(seenLetters[character]);
+                        continue characterLoop;
                     }
                 }
             }
         }
-        return result;
+        return result.join("");
     }
 
     // Decode numbers to letters
     function decoder(input) {
         // Create empty result string
-        let result = "";
+        const result = [];
 
         // Loop through input string, increasing i by 2 each loop to loop through pairs of numbers
         for (let i = 0; i < input.length; i += 2) {
-            // If current character is a space, add to result string and subtract 1 from i to progress to immediate next character at loop
-            if (input[i] === " ") {
-                result += input[i];
-                i -= 1;
-                continue;
-            }
-
             // Turn number pair from input string into column and row to access polybius square
             const column = Number(input[i]);
             const row = Number(input[i + 1]);
 
             // Add letters from polybius square into result string
-            result += square[row - 1][column - 1];
+            result.push(square[row - 1][column - 1]);
         }
-        return result;
+        return result.join("");
     }
 
     function polybius(input, encode = true) {
         // Check if number provided is valid when decoding
-        if (!encode && validityChecker(input)) return false;
+        if (!encode && !checkValidity(input)) return false;
 
         // Make all letters lowercase
         input = input.toLowerCase();
-        return encode ? encoder(input) : decoder(input);
+
+        // Split input by spaces
+        const words = input.split(" ");
+        const translatedWords = [];
+
+        // Add to array each word translated
+        for (const word of words) {
+            translatedWords.push(encode ? encoder(word) : decoder(word));
+        }
+
+        // Rejoin array with spaces
+        return translatedWords.join(" ");
     }
 
     return {
